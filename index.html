@@ -72,7 +72,7 @@
             position: fixed;
             top: 300px;
             left: 10px;
-            width: 460px;
+            width: 477px;
             height: 350px;
             background: rgba(0,0,0,0.3);
             padding: 10px;
@@ -121,6 +121,31 @@
             font-family: 'Open Sans', sans-serif;
             left:10px
         }
+
+        .rest{
+            position:absolute; 
+            top:15px; 
+            font-size:10px; 
+            color:rgb(213, 207, 174);
+            background: rgba(0,0,0,0.3); 
+            padding:10px 10px;
+            border-radius:100px;
+            font-family: 'Open Sans', sans-serif;
+            left:410px
+        }
+
+        .rest:hover{
+            position:absolute; 
+            top:15px; 
+            font-size:10px; 
+            color:rgb(255, 0, 0);
+            background: rgba(0,0,0,0.3); 
+            padding:10px 10px;
+            border-radius:100px;
+            font-family: 'Open Sans', sans-serif;
+            left:410px
+        }
+        
     
     </style>
 </head>
@@ -129,6 +154,7 @@
     <div id="map"></div>
     <nav id="menu"></nav>
     <div id="legend"></div>
+    <div class="rest"> Reset </div>
     <div id="point-count-title">2025 Collision count:</div>
     <div id="point-count">0:</div>
     <div id="chart" ></div>
@@ -139,8 +165,17 @@
          <br>and <a href="https://home.urbanlogiq.us/public/sdot-crash-analysis?c=47.9133696%2C-122.241024&z=11" target="_blank" style="color: rgb(255, 0, 0);"><strong>Crash Analysis</strong> </a>
       
         Using Google Colab, I cleaned both datasets, formatted <br>
-        coordinates, and then combined them through a spatial join.
-        This linked each <br>collision to its neighborhood, enabling analysis of collision patterns across <Br> Seattle.</div>
+        coordinates, and then combined them through a spatial join. This linked each <br>
+        collision to its neighborhood, enabling analysis of collision patterns across <Br> 
+        Seattle. 
+        <Br><Br>This dashboard visualizes car collisions in Seattle. The data is choroplethed <Br>
+        by neighborhood while also displaying individual collision points. The <Br>
+        choropleth is rendered with partial opacity so that the underlying road <Br>
+        network remains visible. This layout consists of warmer colors as it tends to<Br>
+        convey a sense of danger, red was avoided for the choropleth to ensure <Br>
+        the individual points remain the most prominent feature.
+
+
 
 
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
@@ -150,7 +185,7 @@
         const map = new mapboxgl.Map({
             container: 'map',
             style: 'mapbox://styles/mapbox/dark-v10',
-            center: [-122.39, 47.61],
+            center: [-122.39, 47.613],
             zoom: 10.3
         });
         let pointsData;
@@ -243,8 +278,9 @@
 
                 
 
-            // Toggle points in menu
+            
             map.on('idle', () => {
+                // toggle points in menu
                 if (!map.getLayer('points')) return;
 
                 const toggleableLayerIds = ['polygon-counts', 'points'];
@@ -352,6 +388,19 @@
 
             map.on('idle', updateWeatherChart);
             updateWeatherChart(); 
+
+           
+            const rest = document.querySelector('.rest');
+
+            rest.addEventListener('click', function() {
+                map.flyTo({
+                    center: [-122.39, 47.613],
+                    zoom: 10.3
+                });
+            });
+           
+
+   
 
     
 
